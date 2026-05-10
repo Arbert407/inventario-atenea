@@ -4,9 +4,9 @@
 
 | US | Título | Complejidad | Estado |
 |----|--------|-------------|--------|
-| US-001 | Agregar herramienta | 2 | Pendiente |
-| US-002 | Agregar material | 2 | Pendiente |
-| US-003 | Listar productos | 1 | Pendiente |
+| US-001 | Agregar herramienta | 2 | Completada |
+| US-002 | Agregar material | 2 | Completada |
+| US-003 | Listar productos | 1 | Completada |
 | US-004 | Editar producto | 2 | Completada |
 | US-005 | Eliminar producto | 2 | Pendiente |
 | US-006 | Buscar productos | 2 | Pendiente |
@@ -53,11 +53,11 @@
 Como usuario, quiero agregar una nueva herramienta al inventario para registrarla en el sistema.
 
 ### Criterios de Aceptación
-- [ ] Formulario de herramienta con todos los campos
-- [ ] Validar campos obligatorios (nombre, categoría, ubicación)
-- [ ] Guardar en inventario
-- [ ] Mostrar mensaje de éxito después de guardar
-- [ ] Limpiar formulario después de guardar
+- [x] Formulario de herramienta con todos los campos
+- [x] Validar campos obligatorios (nombre, categoría, ubicación)
+- [x] Guardar en inventario
+- [x] Mostrar mensaje de éxito después de guardar
+- [x] Limpiar formulario después de guardar
 
 ### Estimación
 | Complejidad | 2 |
@@ -78,11 +78,11 @@ Ninguno
 Como usuario, quiero agregar un nuevo material al inventario para registrarla en el sistema.
 
 ### Criterios de Aceptación
-- [ ] Formulario de material con todos los campos
-- [ ] Validar campos obligatorios (nombre, categoría)
-- [ ] Guardar en inventario
-- [ ] Mostrar mensaje de éxito después de guardar
-- [ ] Limpiar formulario después de guardar
+- [x] Formulario de material con todos los campos
+- [x] Validar campos obligatorios (nombre, categoría)
+- [x] Guardar en inventario
+- [x] Mostrar mensaje de éxito después de guardar
+- [x] Limpiar formulario después de guardar
 
 ### Estimación
 | Complejidad | 2 |
@@ -102,10 +102,10 @@ Ninguno
 Como usuario, quiero ver la lista de todos los productos del inventario.
 
 ### Criterios de Aceptación
-- [ ] Mostrar todos los productos
-- [ ] Visualización por tipo
-- [ ] Mostrar nombre y cantidad de cada producto
-- [ ] Mostrar vacío si no hay productos
+- [x] Mostrar todos los productos
+- [x] Visualización por tipo
+- [x] Mostrar nombre y cantidad de cada producto
+- [x] Mostrar vacío si no hay productos
 
 ### Estimación
 | Complejidad | 1 |
