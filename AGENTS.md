@@ -64,6 +64,12 @@ Ejemplos:
 - `fix(sidebar): corregir color de fondo`
 - `style(dashboard): mejorar UI según UI-GUIDE`
 
+**NO hacer commit hasta que el humano lo indique.**
+
+**NO hacer build a menos que el humano lo indique o haya algún error de Typescript.**
+
+**NO editar automáticamente muchos archivos para estandarizar algo.** Si necesitas modificar 3 o más archivos para estandarizar código, debes pedir confirmación al humano antes de proceder. Si son 1-2 archivos, puedes proceder directamente.
+
 ## Diseño UI (UI-GUIDE)
 
 - Dark mode con colores personalizados
