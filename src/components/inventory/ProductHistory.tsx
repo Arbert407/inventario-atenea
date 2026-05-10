@@ -7,7 +7,7 @@ import {
 } from '@/components/ui/dialog'
 import { useMovements } from '@/hooks/useMovements'
 import { useTheme } from '@/hooks/useTheme'
-import { ArrowUpCircle, ArrowDownCircle, RotateCcw, Package } from 'lucide-react'
+import { ArrowUpCircle, ArrowDownCircle, RotateCcw, Package, X } from 'lucide-react'
 import type { Product } from '@/types/product'
 import { TOOL_STATUS_LABELS } from '@/data/mock'
 
@@ -50,11 +50,23 @@ export function ProductHistory({ product, open, onOpenChange }: ProductHistoryPr
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-lg max-h-[80vh] overflow-y-auto">
+        <button
+          type="button"
+          onClick={() => onOpenChange(false)}
+          className="absolute right-4 top-4 p-2 rounded-lg transition-colors"
+          style={{ color: s.muted }}
+        >
+          <X className="w-5 h-5" />
+        </button>
         <DialogHeader>
-          <DialogTitle>Historial de {product.name}</DialogTitle>
-          <DialogDescription>
-            {product.type === 'tool' ? `Estado: ${TOOL_STATUS_LABELS[product.status || 'available']}` : `Cantidad: ${product.quantity}`}
-          </DialogDescription>
+          <div className="flex items-center justify-between pr-8">
+            <div>
+              <DialogTitle>Historial de {product.name}</DialogTitle>
+              <DialogDescription>
+                {product.type === 'tool' ? `Estado: ${TOOL_STATUS_LABELS[product.status || 'available']}` : `Cantidad: ${product.quantity}`}
+              </DialogDescription>
+            </div>
+          </div>
         </DialogHeader>
 
         {history.length === 0 ? (

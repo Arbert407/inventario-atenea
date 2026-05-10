@@ -11,6 +11,13 @@ import { ProductEdit } from './ProductEdit'
 import { DeleteConfirm } from './DeleteConfirm'
 import { ProductHistory } from './ProductHistory'
 import { RegisterMovement } from './RegisterMovement'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 
 type ProductListProps = Readonly<{
   filterType?: ProductType | 'all'
@@ -19,7 +26,7 @@ type ProductListProps = Readonly<{
 export function ProductList({ filterType = 'all' }: ProductListProps) {
   const { products, deleteProduct, searchProducts } = useInventory()
   const { theme } = useTheme()
-  const [typeFilter, setTypeFilter] = useState<ProductType | 'all'>(filterType || 'all')
+const [typeFilter, setTypeFilter] = useState<ProductType | 'all'>(filterType || 'all')
   const [categoryFilter, setCategoryFilter] = useState<string>('all')
   const [locationFilter, setLocationFilter] = useState<string>('all')
   const [statusFilter, setStatusFilter] = useState<string>('all')
@@ -40,6 +47,8 @@ export function ProductList({ filterType = 'all' }: ProductListProps) {
     return Array.from(locs).sort()
   }, [products])
 
+  const toolStatuses = ['available', 'in_use', 'damaged', 'repairing']
+
   const searchedProducts = searchQuery.trim()
     ? searchProducts(searchQuery).filter((p) => typeFilter === 'all' || p.type === typeFilter)
     : products.filter((p) => typeFilter === 'all' || p.type === typeFilter)
@@ -50,8 +59,6 @@ export function ProductList({ filterType = 'all' }: ProductListProps) {
     const matchesStatus = statusFilter === 'all' || (p.type === 'tool' && p.status === statusFilter)
     return matchesCategory && matchesLocation && matchesStatus
   })
-
-  const toolStatuses = ['available', 'in_use', 'damaged', 'repairing']
 
   const textStyles = {
     dark: { primary: '#E5E7EB', secondary: '#9CA3AF', muted: '#6B7280' },
@@ -99,7 +106,7 @@ export function ProductList({ filterType = 'all' }: ProductListProps) {
         </div>
       </div>
 
-      <div className="flex gap-2">
+      <div className="flex flex-wrap gap-2">
         <Button
           variant={typeFilter === 'all' ? btnVariant : theme === 'dark' ? 'outline' : 'outlineLight'}
           size="sm"
@@ -112,87 +119,62 @@ export function ProductList({ filterType = 'all' }: ProductListProps) {
           size="sm"
           onClick={() => setTypeFilter('tool')}
         >
-          <Wrench className="w-4 h-4 mr-2" />
-          Herramientas ({products.filter((p) => p.type === 'tool').length})
+          <Wrench className="w-4 h-4 mr-1" />
+          ({products.filter((p) => p.type === 'tool').length})
         </Button>
         <Button
           variant={typeFilter === 'material' ? btnVariant : theme === 'dark' ? 'outline' : 'outlineLight'}
           size="sm"
           onClick={() => setTypeFilter('material')}
         >
-          <Package className="w-4 h-4 mr-2" />
-          Materiales ({products.filter((p) => p.type === 'material').length})
+          <Package className="w-4 h-4 mr-1" />
+          ({products.filter((p) => p.type === 'material').length})
         </Button>
+
+        {categories.length > 0 && (
+          <Select value={categoryFilter} onValueChange={setCategoryFilter}>
+            <SelectTrigger className="w-[140px] h-8" style={{ backgroundColor: 'rgba(255,255,255,0.05)', borderColor: 'rgba(255,255,255,0.1)', color: s.primary }}>
+              <SelectValue placeholder="Categoría" />
+            </SelectTrigger>
+            <SelectContent style={{ backgroundColor: '#1F2937', borderColor: 'rgba(255,255,255,0.1)' }}>
+              <SelectItem value="all">Todas</SelectItem>
+              {categories.map((cat) => (
+                <SelectItem key={cat} value={cat}>{cat}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        )}
+
+        {locations.length > 0 && (
+          <Select value={locationFilter} onValueChange={setLocationFilter}>
+            <SelectTrigger className="w-[140px] h-8" style={{ backgroundColor: 'rgba(255,255,255,0.05)', borderColor: 'rgba(255,255,255,0.1)', color: s.primary }}>
+              <SelectValue placeholder="Ubicación" />
+            </SelectTrigger>
+            <SelectContent style={{ backgroundColor: '#1F2937', borderColor: 'rgba(255,255,255,0.1)' }}>
+              <SelectItem value="all">Todas</SelectItem>
+              {locations.map((loc) => (
+                <SelectItem key={loc} value={loc}>{loc}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        )}
+
+        {filterType === 'tool' && toolStatuses.length > 0 && (
+          <Select value={statusFilter} onValueChange={setStatusFilter}>
+            <SelectTrigger className="w-[140px] h-8" style={{ backgroundColor: 'rgba(255,255,255,0.05)', borderColor: 'rgba(255,255,255,0.1)', color: s.primary }}>
+              <SelectValue placeholder="Estado" />
+            </SelectTrigger>
+            <SelectContent style={{ backgroundColor: '#1F2937', borderColor: 'rgba(255,255,255,0.1)' }}>
+              <SelectItem value="all">Todos</SelectItem>
+              {toolStatuses.map((status) => (
+                <SelectItem key={status} value={status}>
+                  {status === 'available' ? 'Disponible' : status === 'in_use' ? 'En Uso' : status === 'damaged' ? 'Dañada' : 'Reparación'}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        )}
       </div>
-
-      {categories.length > 0 && (
-        <div className="flex flex-wrap gap-2 items-center">
-          <span className="text-sm" style={{ color: s.muted }}>Categoría:</span>
-          <Button
-            variant={categoryFilter === 'all' ? btnVariant : theme === 'dark' ? 'outline' : 'outlineLight'}
-            size="sm"
-            onClick={() => setCategoryFilter('all')}
-          >
-            Todas
-          </Button>
-          {categories.map((cat) => (
-            <Button
-              key={cat}
-              variant={categoryFilter === cat ? btnVariant : theme === 'dark' ? 'outline' : 'outlineLight'}
-              size="sm"
-              onClick={() => setCategoryFilter(cat)}
-            >
-              {cat}
-            </Button>
-          ))}
-        </div>
-      )}
-
-      {locations.length > 0 && (
-        <div className="flex flex-wrap gap-2 items-center">
-          <span className="text-sm" style={{ color: s.muted }}>Ubicación:</span>
-          <Button
-            variant={locationFilter === 'all' ? btnVariant : theme === 'dark' ? 'outline' : 'outlineLight'}
-            size="sm"
-            onClick={() => setLocationFilter('all')}
-          >
-            Todas
-          </Button>
-          {locations.map((loc) => (
-            <Button
-              key={loc}
-              variant={locationFilter === loc ? btnVariant : theme === 'dark' ? 'outline' : 'outlineLight'}
-              size="sm"
-              onClick={() => setLocationFilter(loc)}
-            >
-              {loc}
-            </Button>
-          ))}
-        </div>
-      )}
-
-      {filterType === 'tool' && (
-        <div className="flex flex-wrap gap-2 items-center">
-          <span className="text-sm" style={{ color: s.muted }}>Estado:</span>
-          <Button
-            variant={statusFilter === 'all' ? btnVariant : theme === 'dark' ? 'outline' : 'outlineLight'}
-            size="sm"
-            onClick={() => setStatusFilter('all')}
-          >
-            Todos
-          </Button>
-          {toolStatuses.map((status) => (
-            <Button
-              key={status}
-              variant={statusFilter === status ? btnVariant : theme === 'dark' ? 'outline' : 'outlineLight'}
-              size="sm"
-              onClick={() => setStatusFilter(status)}
-            >
-              {status === 'available' ? 'Disponible' : status === 'in_use' ? 'En Uso' : status === 'damaged' ? 'Dañada' : 'Reparación'}
-            </Button>
-          ))}
-        </div>
-      )}
 
       {filteredProducts.length === 0 ? (
         searchQuery || categoryFilter !== 'all' || locationFilter !== 'all' || statusFilter !== 'all' ? (
