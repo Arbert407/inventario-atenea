@@ -6,12 +6,36 @@ type LayoutProps = Readonly<{
   children: ReactNode
   currentView: string
   onNavigate: (view: string) => void
+  theme: 'dark' | 'light'
+  onThemeChange: (theme: 'dark' | 'light') => void
 }>
 
-export function Layout({ children, currentView, onNavigate }: LayoutProps) {
+const themeConfig = {
+  dark: {
+    background: '#0F172A',
+    textPrimary: '#E5E7EB',
+    textSecondary: '#9CA3AF',
+    textMuted: '#6B7280',
+    border: 'rgba(255,255,255,0.12)',
+  },
+  light: {
+    background: '#26221C',
+    textPrimary: '#E5E7EB',
+    textSecondary: '#9CA3AF',
+    textMuted: '#6B7280',
+    border: 'rgba(255,255,255,0.12)',
+  },
+}
+
+export function Layout({ children, currentView, onNavigate, theme, onThemeChange }: LayoutProps) {
+  const styles = themeConfig[theme]
+
   return (
-    <div className="min-h-screen bg-[#0F172A] flex flex-col">
-      <Header currentView={currentView} onNavigate={onNavigate} />
+    <div 
+      className="min-h-screen flex flex-col"
+      style={{ backgroundColor: styles.background, color: styles.textPrimary }}
+    >
+      <Header currentView={currentView} onNavigate={onNavigate} theme={theme} onThemeChange={onThemeChange} />
       <main className="flex-1 p-6 pb-16">
         {children}
       </main>

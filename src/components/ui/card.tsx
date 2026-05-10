@@ -3,14 +3,22 @@ import { cn } from "@/lib/utils"
 
 type CardProps = React.HTMLAttributes<HTMLDivElement>
 
+const cardBg = 'rgba(255,255,255,0.08)'
+const cardBorder = 'rgba(255,255,255,0.12)'
+
 const Card = React.forwardRef<HTMLDivElement, CardProps>(
   ({ className, ...props }, ref) => (
     <div
       ref={ref}
       className={cn(
-        "rounded-2xl bg-[rgba(255,255,255,0.08)] backdrop-blur-xl border border-[rgba(255,255,255,0.12)] shadow-lg p-6",
+        "rounded-2xl backdrop-blur-xl shadow-lg p-6",
         className
       )}
+      style={{
+        backgroundColor: cardBg,
+        borderColor: cardBorder,
+        borderWidth: 1,
+      }}
       {...props}
     />
   )
@@ -33,9 +41,10 @@ const CardTitle = React.forwardRef<HTMLHeadingElement, React.HTMLAttributes<HTML
     <h3
       ref={ref}
       className={cn(
-        "text-lg font-semibold leading-none tracking-tight text-[#E5E7EB]",
+        "text-lg font-semibold leading-none tracking-tight",
         className
       )}
+      style={{ color: '#E5E7EB' }}
       {...props}
     />
   )
@@ -46,7 +55,8 @@ const CardDescription = React.forwardRef<HTMLParagraphElement, React.HTMLAttribu
   ({ className, ...props }, ref) => (
     <p
       ref={ref}
-      className={cn("text-sm text-[#9CA3AF]", className)}
+      className={cn("text-sm", className)}
+      style={{ color: '#9CA3AF' }}
       {...props}
     />
   )

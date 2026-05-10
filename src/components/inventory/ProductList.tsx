@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { useInventory } from '@/hooks/useInventory'
+import { useTheme } from '@/hooks/useTheme'
 import { TOOL_STATUS_LABELS, TOOL_STATUS_COLORS } from '@/data/mock'
 import type { Product, ProductType } from '@/types/product'
 import { Package, Wrench, PackageX, Pencil } from 'lucide-react'
@@ -13,6 +14,7 @@ type ProductListProps = Readonly<{
 
 export function ProductList({ filterType = 'all' }: ProductListProps) {
   const { products } = useInventory()
+  const { theme } = useTheme()
   const [typeFilter, setTypeFilter] = useState<ProductType | 'all'>('all')
   const [editProduct, setEditProduct] = useState<Product | null>(null)
 
@@ -21,23 +23,32 @@ export function ProductList({ filterType = 'all' }: ProductListProps) {
     return p.type === typeFilter
   })
 
+  const textStyles = {
+    dark: { primary: '#E5E7EB', secondary: '#9CA3AF', muted: '#6B7280' },
+    light: { primary: '#E5E7EB', secondary: '#9CA3AF', muted: '#6B7280' },
+  }
+  const s = textStyles[theme]
+  const btnVariant = theme === 'dark' ? 'default' : 'primary'
+
   return (
     <div className="space-y-6">
       <div className="text-center py-4">
-        <h2 className="text-3xl font-bold text-text-primary tracking-tight">Productos</h2>
-        <p className="text-text-secondary mt-1">Lista de todos los productos en inventario</p>
+        <h2 className="text-3xl font-bold tracking-tight" style={{ color: s.primary }}>
+          Productos
+        </h2>
+        <p className="mt-1" style={{ color: s.secondary }}>Lista de todos los productos en inventario</p>
       </div>
 
       <div className="flex gap-2">
         <Button
-          variant={typeFilter === 'all' ? 'default' : 'outline'}
+          variant={typeFilter === 'all' ? btnVariant : theme === 'dark' ? 'outline' : 'outlineLight'}
           size="sm"
           onClick={() => setTypeFilter('all')}
         >
           Todos ({products.length})
         </Button>
         <Button
-          variant={typeFilter === 'tool' ? 'default' : 'outline'}
+          variant={typeFilter === 'tool' ? btnVariant : theme === 'dark' ? 'outline' : 'outlineLight'}
           size="sm"
           onClick={() => setTypeFilter('tool')}
         >
@@ -45,7 +56,7 @@ export function ProductList({ filterType = 'all' }: ProductListProps) {
           Herramientas ({products.filter((p) => p.type === 'tool').length})
         </Button>
         <Button
-          variant={typeFilter === 'material' ? 'default' : 'outline'}
+          variant={typeFilter === 'material' ? btnVariant : theme === 'dark' ? 'outline' : 'outlineLight'}
           size="sm"
           onClick={() => setTypeFilter('material')}
         >
@@ -55,7 +66,7 @@ export function ProductList({ filterType = 'all' }: ProductListProps) {
       </div>
 
       {filteredProducts.length === 0 ? (
-        <EmptyState type={typeFilter} />
+        <EmptyState type={typeFilter} theme={theme} />
       ) : (
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -64,6 +75,7 @@ export function ProductList({ filterType = 'all' }: ProductListProps) {
                 key={product.id}
                 product={product}
                 onEdit={() => setEditProduct(product)}
+                theme={theme}
               />
             ))}
           </div>
@@ -77,7 +89,7 @@ export function ProductList({ filterType = 'all' }: ProductListProps) {
         </>
       )}
 
-      <p className="text-text-muted text-sm text-center">
+      <p className="text-sm text-center" style={{ color: s.muted }}>
         Mostrando {filteredProducts.length} de {products.length} productos
       </p>
     </div>
@@ -87,35 +99,60 @@ export function ProductList({ filterType = 'all' }: ProductListProps) {
 type ProductCardProps = Readonly<{
   product: Product
   onEdit: () => void
+  theme: 'dark' | 'light'
 }>
 
-function ProductCard({ product, onEdit }: ProductCardProps) {
+function ProductCard({ product, onEdit, theme }: ProductCardProps) {
   const isTool = product.type === 'tool'
+  const textStyles = {
+    dark: { primary: '#E5E7EB', secondary: '#9CA3AF', muted: '#6B7280' },
+    light: { primary: '#1F2937', secondary: '#4B5563', muted: '#6B7280' },
+  }
+  const s = textStyles[theme]
 
   return (
     <Card className="glass-card hover:-translate-y-1 transition-transform duration-300">
       <CardContent className="pt-4">
         <div className="flex items-start gap-3">
-          <div className="p-2 rounded-lg bg-primary/10 text-primary">
+          <div 
+            className="p-2 rounded-lg"
+            style={{ 
+              backgroundColor: theme === 'dark' ? 'rgba(76,201,240,0.1)' : 'rgba(249,115,22,0.1)',
+              color: theme === 'dark' ? '#4CC9F0' : '#F97316'
+            }}
+          >
             {isTool ? <Wrench className="w-5 h-5" /> : <Package className="w-5 h-5" />}
           </div>
           <div className="flex-1 min-w-0">
             <div className="flex items-center justify-between">
-              <h3 className="font-semibold text-text-primary truncate">{product.name}</h3>
+              <h3 className="font-semibold truncate" style={{ color: s.primary }}>{product.name}</h3>
               <button
                 type="button"
                 onClick={onEdit}
-                className="p-1.5 rounded-lg text-text-secondary hover:text-primary hover:bg-primary/10 transition-colors"
+                className="p-1.5 rounded-lg transition-colors"
+                style={{ color: s.secondary }}
               >
                 <Pencil className="w-4 h-4" />
               </button>
             </div>
-            <p className="text-sm text-text-secondary truncate">{product.description}</p>
+            <p className="text-sm truncate" style={{ color: s.secondary }}>{product.description}</p>
             <div className="flex items-center gap-2 mt-2 flex-wrap">
-              <span className="text-xs px-2 py-1 rounded bg-white/10 text-text-secondary">
+              <span 
+                className="text-xs px-2 py-1 rounded"
+                style={{ 
+                  backgroundColor: theme === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.08)',
+                  color: s.secondary 
+                }}
+              >
                 {product.category}
               </span>
-              <span className="text-xs px-2 py-1 rounded bg-white/10 text-text-secondary">
+              <span 
+                className="text-xs px-2 py-1 rounded"
+                style={{ 
+                  backgroundColor: theme === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.08)',
+                  color: s.secondary 
+                }}
+              >
                 {product.location}
               </span>
               {isTool && product.status && (
@@ -126,8 +163,8 @@ function ProductCard({ product, onEdit }: ProductCardProps) {
             </div>
             {!isTool && product.quantity !== undefined && (
               <div className="mt-2 text-sm">
-                <span className="text-text-primary font-medium">Cantidad: </span>
-                <span className="text-text-secondary">{product.quantity}</span>
+                <span className="font-medium" style={{ color: s.primary }}>Cantidad: </span>
+                <span style={{ color: s.secondary }}>{product.quantity}</span>
                 {product.minStock !== undefined && product.quantity !== undefined && product.quantity < product.minStock && (
                   <span className="ml-2 text-danger text-xs">(Stock bajo)</span>
                 )}
@@ -142,20 +179,26 @@ function ProductCard({ product, onEdit }: ProductCardProps) {
 
 type EmptyStateProps = Readonly<{
   type: ProductType | 'all'
+  theme: 'dark' | 'light'
 }>
 
-function EmptyState({ type }: EmptyStateProps) {
+function EmptyState({ type, theme }: EmptyStateProps) {
   const messages: Record<ProductType | 'all', string> = {
     all: 'No hay productos registrados',
     tool: 'No hay herramientas registradas',
     material: 'No hay materiales registrados',
   }
+  const textStyles = {
+    dark: { secondary: '#9CA3AF', muted: '#6B7280' },
+    light: { secondary: '#4B5563', muted: '#6B7280' },
+  }
+  const s = textStyles[theme]
 
   return (
     <div className="text-center py-12">
-      <PackageX className="w-16 h-16 text-text-muted mx-auto mb-4 opacity-30" />
-      <p className="text-text-secondary text-lg">{messages[type]}</p>
-      <p className="text-text-muted text-sm mt-1">
+      <PackageX className="w-16 h-16 mx-auto mb-4" style={{ color: s.muted, opacity: 0.3 }} />
+      <p className="text-lg" style={{ color: s.secondary }}>{messages[type]}</p>
+      <p className="text-sm mt-1" style={{ color: s.muted }}>
         Agrega productos desde el menú de navegación
       </p>
     </div>
