@@ -3,27 +3,27 @@
 ## Pendientes
 
 ### Configuración Inicial
-- [ ] Inicializar proyecto React con Vite
-- [ ] Configurar Tailwind CSS con UI-GUIDE
-- [ ] Instalar shadcn/ui
-- [ ] Configurar componentes shadcn
+- [x] Inicializar proyecto React con Vite
+- [x] Configurar Tailwind CSS con UI-GUIDE
+- [x] Instalar shadcn/ui
+- [x] Configurar componentes shadcn
 
 ### Core
-- [ ] Estructura de carpetas (components, hooks, lib, types, data)
-- [ ] Tipos TypeScript (Product, Movement)
-- [ ] Hook useLocalStorage
-- [ ] Hook useInventory
+- [x] Estructura de carpetas (components, hooks, lib, types, data)
+- [x] Tipos TypeScript (Product, Movement)
+- [x] Hook useLocalStorage
+- [x] Hook useInventory
 
 ### Layout
-- [ ] Layout principal (header, main, footer)
-- [ ] Footer con copyright dinámico
-- [ ] Navigation/Header
+- [x] Layout principal (header, main, footer)
+- [x] Footer con copyright dinámico
+- [x] Navigation/Header
 
 ### Dashboard (Home)
-- [ ] Dashboard con resumen de inventario
-- [ ] Widget de cantidad de materiales
-- [ ] Widget de estado de herramientas
-- [ ] Alertas de stock bajo
+- [x] Dashboard con resumen de inventario
+- [x] Widget de cantidad de materiales
+- [x] Widget de estado de herramientas
+- [x] Alertas de stock bajo
 
 ### Gestión de Productos
 - [ ] Lista de productos
