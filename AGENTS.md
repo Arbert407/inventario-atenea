@@ -46,6 +46,24 @@ Eres un **Especialista en React con shadcn/ui y Tailwind CSS**. Tu rol es crear 
 - Estilos via Tailwind CSS
 - Tipos TypeScript en /types
 
+## Convenciones de Commits
+
+Usar el formato: `tipo(parte): descripción`
+
+| Tipo | Descripción |
+|------|------------|
+| `feat` | Nueva funcionalidad |
+| `fix` | Corrección de bug |
+| `refactor` | Refactorización |
+| `style` | Estilos UI |
+| `docs` | Documentación |
+| `chore` | Tareas varias |
+
+Ejemplos:
+- `feat(header): agregar botón hamburguesa para móvil`
+- `fix(sidebar): corregir color de fondo`
+- `style(dashboard): mejorar UI según UI-GUIDE`
+
 ## Diseño UI (UI-GUIDE)
 
 - Dark mode con colores personalizados
