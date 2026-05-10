@@ -66,7 +66,7 @@ export const MOCK_PRODUCTS: Product[] = [
     minStock: 5,
     maxStock: 50,
     purchasePrice: 8.5,
-    salePrice: 12.0,
+    salePrice: 12,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   },

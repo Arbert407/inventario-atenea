@@ -7,7 +7,7 @@
 | US-001 | Agregar herramienta | 2 | Pendiente |
 | US-002 | Agregar material | 2 | Pendiente |
 | US-003 | Listar productos | 1 | Pendiente |
-| US-004 | Editar producto | 2 | Pendiente |
+| US-004 | Editar producto | 2 | Completada |
 | US-005 | Eliminar producto | 2 | Pendiente |
 | US-006 | Buscar productos | 2 | Pendiente |
 | US-007 | Filtrar por tipo | 1 | Pendiente |
@@ -126,11 +126,11 @@ US-001, US-002
 Como usuario, quiero editar la información de un producto existente.
 
 ### Criterios de Aceptación
-- [ ] Cargar datos existentes en formulario
-- [ ] Modificar campos deseados
-- [ ] Validar campos obligatorios
-- [ ] Guardar cambios
-- [ ] Mostrar mensaje de éxito
+- [x] Cargar datos existentes en formulario
+- [x] Modificar campos deseados
+- [x] Validar campos obligatorios
+- [x] Guardar cambios
+- [x] Mostrar mensaje de éxito
 
 ### Estimación
 | Complejidad | 2 |

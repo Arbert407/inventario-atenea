@@ -303,6 +303,17 @@ type ButtonProps = Readonly<{
 }>
 ```
 
+### Números
+No usar fracciones decimales innecesarias:
+
+```typescript
+// ❌ Incorrecto
+const price = 12.0
+
+// ✅ Correcto
+const price = 12
+```
+
 Opcionalmente usar el patrón de shadcn/ui:
 ```typescript
 // ✅ Correcto - tipo con intersección

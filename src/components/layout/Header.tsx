@@ -9,6 +9,8 @@ type HeaderProps = Readonly<{
 const menuItems = [
   { id: 'dashboard', label: 'Dashboard' },
   { id: 'products', label: 'Productos' },
+  { id: 'add-tool', label: 'Agregar Herramienta' },
+  { id: 'add-material', label: 'Agregar Material' },
   { id: 'tools', label: 'Herramientas' },
   { id: 'materials', label: 'Materiales' },
   { id: 'movements', label: 'Movimientos' },

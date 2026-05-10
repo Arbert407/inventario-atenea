@@ -26,9 +26,9 @@
 - [x] Alertas de stock bajo
 
 ### Gestión de Productos
-- [ ] Lista de productos
-- [ ] Formulario de productos (agregar/editar)
-- [ ] Filtrar por tipo (herramienta/material)
+- [x] Lista de productos
+- [x] Formulario de productos (agregar/editar)
+- [x] Filtrar por tipo (herramienta/material)
 - [ ] Búsqueda de productos
 - [ ] Eliminación de productos
 
