@@ -8,12 +8,12 @@
 | US-002 | Agregar material | 2 | Completada |
 | US-003 | Listar productos | 1 | Completada |
 | US-004 | Editar producto | 2 | Completada |
-| US-005 | Eliminar producto | 2 | Pendiente |
-| US-006 | Buscar productos | 2 | Pendiente |
-| US-007 | Filtrar por tipo | 1 | Pendiente |
-| US-008 | Filtrar por categoría | 1 | Pendiente |
-| US-009 | Filtrar por ubicación | 1 | Pendiente |
-| US-010 | Ver dashboard | 2 | Pendiente |
+| US-005 | Eliminar producto | 2 | Completada |
+| US-006 | Buscar productos | 2 | Completada |
+| US-007 | Filtrar por tipo | 1 | Completada |
+| US-008 | Filtrar por categoría | 1 | Completada |
+| US-009 | Filtrar por ubicación | 1 | Completada |
+| US-010 | Ver dashboard | 2 | Completada |
 | US-011 | Mostrar total materiales | 1 | Pendiente |
 | US-012 | Mostrar herramientas por estado | 2 | Pendiente |
 | US-013 | Mostrar alertas stock bajo | 2 | Pendiente |
@@ -151,10 +151,10 @@ US-003
 Como usuario, quiero eliminar un producto del inventario.
 
 ### Criterios de Aceptación
-- [ ] Botón de eliminar en cada producto
-- [ ] Confirmar eliminación con modal o confirmación
-- [ ] Eliminar del inventario
-- [ ] Mostrar mensaje de confirmación
+- [x] Botón de eliminar en cada producto
+- [x] Confirmar eliminación con modal o confirmación
+- [x] Eliminar del inventario
+- [x] Mostrar mensaje de confirmación
 
 ### Estimación
 | Complejidad | 2 |
@@ -174,11 +174,11 @@ US-003
 Como usuario, quiero buscar productos por nombre.
 
 ### Criterios de Aceptación
-- [ ] Campo de búsqueda visible
-- [ ] Buscar mientras escribe (tiempo real)
-- [ ] Resultados en tiempo real
-- [ ] Mostrar mensaje si no hay resultados
-- [ ] Limpiar búsqueda
+- [x] Campo de búsqueda visible
+- [x] Buscar mientras escribe (tiempo real)
+- [x] Resultados en tiempo real
+- [x] Mostrar mensaje si no hay resultados
+- [x] Limpiar búsqueda
 
 ### Estimación
 | Complejidad | 2 |
@@ -198,10 +198,10 @@ US-003
 Como usuario, quiero filtrar productos por tipo (herramienta/material).
 
 ### Criterios de Aceptación
-- [ ] Filtro por tipo (herramienta/material)
-- [ ] Mostrar solo el tipo seleccionado
-- [ ] Botón para quitar filtro
-- [ ] Contador de resultados
+- [x] Filtro por tipo (herramienta/material)
+- [x] Mostrar solo el tipo seleccionado
+- [x] Botón para quitar filtro
+- [x] Contador de resultados
 
 ### Estimación
 | Complejidad | 1 |
@@ -222,10 +222,10 @@ US-003
 Como usuario, quiero filtrar productos por categoría.
 
 ### Criterios de Aceptación
-- [ ] Filtro por categoría
-- [ ] Lista desplegable de categorías
-- [ ] Mostrar solo los de esa categoría
-- [ ] Botón para quitar filtro
+- [x] Filtro por categoría
+- [x] Lista desplegable de categorías
+- [x] Mostrar solo los de esa categoría
+- [x] Botón para quitar filtro
 
 ### Estimación
 | Complejidad | 1 |
@@ -245,10 +245,10 @@ US-003
 Como usuario, quiero filtrar productos por ubicación.
 
 ### Criterios de Aceptación
-- [ ] Filtro por ubicación
-- [ ] Lista desplegable de ubicaciones
-- [ ] Mostrar solo los de esa ubicación
-- [ ] Botón para quitar filtro
+- [x] Filtro por ubicación
+- [x] Lista desplegable de ubicaciones
+- [x] Mostrar solo los de esa ubicación
+- [x] Botón para quitar filtro
 
 ### Estimación
 | Complejidad | 1 |
@@ -268,10 +268,10 @@ US-003
 Como usuario, quiero ver un dashboard en la pantalla principal.
 
 ### Criterios de Aceptación
-- [ ] Mostrar dashboard en ruta principal
-- [ ] Resumen de inventario
-- [ ] Actualización en tiempo real
-- [ ] Navegación rápida a otras secciones
+- [x] Mostrar dashboard en ruta principal
+- [x] Resumen de inventario
+- [x] Actualización en tiempo real
+- [x] Navegación rápida a otras secciones
 
 ### Estimación
 | Complejidad | 2 |

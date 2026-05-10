@@ -1,31 +1,52 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 import { Card, CardContent } from '@/components/ui/card'
 import { useInventory } from '@/hooks/useInventory'
 import { useTheme } from '@/hooks/useTheme'
 import { TOOL_STATUS_LABELS, TOOL_STATUS_COLORS } from '@/data/mock'
 import type { Product, ProductType } from '@/types/product'
-import { Package, Wrench, PackageX, Pencil } from 'lucide-react'
+import { Package, Wrench, PackageX, Pencil, Trash2, Search, X, ChevronDown } from 'lucide-react'
 import { ProductEdit } from './ProductEdit'
+import { DeleteConfirm } from './DeleteConfirm'
 
 type ProductListProps = Readonly<{
   filterType?: ProductType | 'all'
 }>
 
 export function ProductList({ filterType = 'all' }: ProductListProps) {
-  const { products } = useInventory()
+  const { products, deleteProduct, searchProducts } = useInventory()
   const { theme } = useTheme()
   const [typeFilter, setTypeFilter] = useState<ProductType | 'all'>('all')
+  const [categoryFilter, setCategoryFilter] = useState<string>('all')
+  const [locationFilter, setLocationFilter] = useState<string>('all')
+  const [searchQuery, setSearchQuery] = useState('')
   const [editProduct, setEditProduct] = useState<Product | null>(null)
+  const [productToDelete, setProductToDelete] = useState<Product | null>(null)
 
-  const filteredProducts = products.filter((p) => {
-    if (typeFilter === 'all') return true
-    return p.type === typeFilter
+  const categories = useMemo(() => {
+    const cats = new Set(products.map((p) => p.category))
+    return Array.from(cats).sort()
+  }, [products])
+
+  const locations = useMemo(() => {
+    const locs = new Set(products.map((p) => p.location))
+    return Array.from(locs).sort()
+  }, [products])
+
+  const searchedProducts = searchQuery.trim()
+    ? searchProducts(searchQuery).filter((p) => typeFilter === 'all' || p.type === typeFilter)
+    : products.filter((p) => typeFilter === 'all' || p.type === typeFilter)
+
+  const filteredProducts = searchedProducts.filter((p) => {
+    const matchesCategory = categoryFilter === 'all' || p.category === categoryFilter
+    const matchesLocation = locationFilter === 'all' || p.location === locationFilter
+    return matchesCategory && matchesLocation
   })
 
   const textStyles = {
     dark: { primary: '#E5E7EB', secondary: '#9CA3AF', muted: '#6B7280' },
-    light: { primary: '#E5E7EB', secondary: '#9CA3AF', muted: '#6B7280' },
+    light: { primary: '#D1D5DB', secondary: '#9CA3AF', muted: '#6B7280' },
   }
   const s = textStyles[theme]
   const btnVariant = theme === 'dark' ? 'default' : 'primary'
@@ -37,6 +58,34 @@ export function ProductList({ filterType = 'all' }: ProductListProps) {
           Productos
         </h2>
         <p className="mt-1" style={{ color: s.secondary }}>Lista de todos los productos en inventario</p>
+      </div>
+
+      <div className="relative">
+        <div className="relative">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: s.muted }} />
+          <input
+            type="text"
+            placeholder="Buscar productos..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full h-10 rounded-xl pl-10 pr-10 transition-all focus:outline-none focus:ring-2"
+            style={{
+              backgroundColor: 'rgba(255,255,255,0.05)',
+              border: '1px solid rgba(255,255,255,0.1)',
+              color: s.primary,
+            }}
+          />
+          {searchQuery && (
+            <button
+              type="button"
+              onClick={() => setSearchQuery('')}
+              className="absolute right-3 top-1/2 -translate-y-1/2 p-1 rounded-full transition-colors"
+              style={{ color: s.muted }}
+            >
+              <X className="w-4 h-4" />
+            </button>
+          )}
+        </div>
       </div>
 
       <div className="flex gap-2">
@@ -65,8 +114,64 @@ export function ProductList({ filterType = 'all' }: ProductListProps) {
         </Button>
       </div>
 
+      {categories.length > 0 && (
+        <div className="flex flex-wrap gap-2 items-center">
+          <span className="text-sm" style={{ color: s.muted }}>Categoría:</span>
+          <Button
+            variant={categoryFilter === 'all' ? btnVariant : theme === 'dark' ? 'outline' : 'outlineLight'}
+            size="sm"
+            onClick={() => setCategoryFilter('all')}
+          >
+            Todas
+          </Button>
+          {categories.map((cat) => (
+            <Button
+              key={cat}
+              variant={categoryFilter === cat ? btnVariant : theme === 'dark' ? 'outline' : 'outlineLight'}
+              size="sm"
+              onClick={() => setCategoryFilter(cat)}
+            >
+              {cat}
+            </Button>
+          ))}
+        </div>
+      )}
+
+      {locations.length > 0 && (
+        <div className="flex flex-wrap gap-2 items-center">
+          <span className="text-sm" style={{ color: s.muted }}>Ubicación:</span>
+          <Button
+            variant={locationFilter === 'all' ? btnVariant : theme === 'dark' ? 'outline' : 'outlineLight'}
+            size="sm"
+            onClick={() => setLocationFilter('all')}
+          >
+            Todas
+          </Button>
+          {locations.map((loc) => (
+            <Button
+              key={loc}
+              variant={locationFilter === loc ? btnVariant : theme === 'dark' ? 'outline' : 'outlineLight'}
+              size="sm"
+              onClick={() => setLocationFilter(loc)}
+            >
+              {loc}
+            </Button>
+          ))}
+        </div>
+      )}
+
       {filteredProducts.length === 0 ? (
-        <EmptyState type={typeFilter} theme={theme} />
+        searchQuery || categoryFilter !== 'all' || locationFilter !== 'all' ? (
+          <div className="text-center py-12">
+            <PackageX className="w-16 h-16 mx-auto mb-4" style={{ color: s.muted, opacity: 0.3 }} />
+            <p className="text-lg" style={{ color: s.secondary }}>No se encontraron resultados</p>
+            <p className="text-sm mt-1" style={{ color: s.muted }}>
+              No hay productos que coincidan con los filtros seleccionados
+            </p>
+          </div>
+        ) : (
+          <EmptyState type={typeFilter} theme={theme} />
+        )
       ) : (
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -75,6 +180,7 @@ export function ProductList({ filterType = 'all' }: ProductListProps) {
                 key={product.id}
                 product={product}
                 onEdit={() => setEditProduct(product)}
+                onDelete={() => setProductToDelete(product)}
                 theme={theme}
               />
             ))}
@@ -86,11 +192,25 @@ export function ProductList({ filterType = 'all' }: ProductListProps) {
               onOpenChange={(open) => !open && setEditProduct(null)}
             />
           )}
+          {productToDelete && (
+            <DeleteConfirm
+              product={productToDelete}
+              open={!!productToDelete}
+              onOpenChange={(open) => !open && setProductToDelete(null)}
+              onConfirm={() => {
+                deleteProduct(productToDelete.id)
+                setProductToDelete(null)
+              }}
+            />
+          )}
         </>
       )}
 
       <p className="text-sm text-center" style={{ color: s.muted }}>
         Mostrando {filteredProducts.length} de {products.length} productos
+        {searchQuery && ` (búsqueda: "${searchQuery}")`}
+        {categoryFilter !== 'all' && ` (categoría: ${categoryFilter})`}
+        {locationFilter !== 'all' && ` (ubicación: ${locationFilter})`}
       </p>
     </div>
   )
@@ -99,14 +219,15 @@ export function ProductList({ filterType = 'all' }: ProductListProps) {
 type ProductCardProps = Readonly<{
   product: Product
   onEdit: () => void
+  onDelete: () => void
   theme: 'dark' | 'light'
 }>
 
-function ProductCard({ product, onEdit, theme }: ProductCardProps) {
+function ProductCard({ product, onEdit, onDelete, theme }: ProductCardProps) {
   const isTool = product.type === 'tool'
   const textStyles = {
     dark: { primary: '#E5E7EB', secondary: '#9CA3AF', muted: '#6B7280' },
-    light: { primary: '#1F2937', secondary: '#4B5563', muted: '#6B7280' },
+    light: { primary: '#D1D5DB', secondary: '#9CA3AF', muted: '#6B7280' },
   }
   const s = textStyles[theme]
 
@@ -126,21 +247,31 @@ function ProductCard({ product, onEdit, theme }: ProductCardProps) {
           <div className="flex-1 min-w-0">
             <div className="flex items-center justify-between">
               <h3 className="font-semibold truncate" style={{ color: s.primary }}>{product.name}</h3>
-              <button
-                type="button"
-                onClick={onEdit}
-                className="p-1.5 rounded-lg transition-colors"
-                style={{ color: s.secondary }}
-              >
-                <Pencil className="w-4 h-4" />
-              </button>
+              <div className="flex items-center gap-1">
+                <button
+                  type="button"
+                  onClick={onEdit}
+                  className="p-1.5 rounded-lg transition-colors"
+                  style={{ color: s.secondary }}
+                >
+                  <Pencil className="w-4 h-4" />
+                </button>
+                <button
+                  type="button"
+                  onClick={onDelete}
+                  className="p-1.5 rounded-lg transition-colors hover:text-danger"
+                  style={{ color: s.secondary }}
+                >
+                  <Trash2 className="w-4 h-4" />
+                </button>
+              </div>
             </div>
             <p className="text-sm truncate" style={{ color: s.secondary }}>{product.description}</p>
             <div className="flex items-center gap-2 mt-2 flex-wrap">
               <span 
                 className="text-xs px-2 py-1 rounded"
                 style={{ 
-                  backgroundColor: theme === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.08)',
+                  backgroundColor: 'rgba(255,255,255,0.1)',
                   color: s.secondary 
                 }}
               >
@@ -149,7 +280,7 @@ function ProductCard({ product, onEdit, theme }: ProductCardProps) {
               <span 
                 className="text-xs px-2 py-1 rounded"
                 style={{ 
-                  backgroundColor: theme === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.08)',
+                  backgroundColor: 'rgba(255,255,255,0.1)',
                   color: s.secondary 
                 }}
               >

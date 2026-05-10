@@ -19,11 +19,11 @@ const themeConfig = {
     border: 'rgba(255,255,255,0.12)',
   },
   light: {
-    background: '#26221C',
-    textPrimary: '#E5E7EB',
+    background: '#1E1B18',
+    textPrimary: '#D1D5DB',
     textSecondary: '#9CA3AF',
     textMuted: '#6B7280',
-    border: 'rgba(255,255,255,0.12)',
+    border: 'rgba(255,255,255,0.1)',
   },
 }
 
