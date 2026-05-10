@@ -281,3 +281,33 @@ El footer debe mostrar copyright, autor y nombre del sistema.
 - Opacidad: 0.6
 - Background: transparent
 - Padding: 12px 0
+
+---
+
+## Convenciones TypeScript
+
+### Props de Componentes
+Para evitar el code smell "Mark the props of the component as read-only", usar `type` con `Readonly`:
+
+```typescript
+// ❌ Incorrecto - interface mutable
+interface ButtonProps {
+  label: string
+  onClick: () => void
+}
+
+// ✅ Correcto - type inmutable
+type ButtonProps = Readonly<{
+  label: string
+  onClick: () => void
+}>
+```
+
+Opcionalmente usar el patrón de shadcn/ui:
+```typescript
+// ✅ Correcto - tipo con intersección
+type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> &
+  VariantProps<typeof buttonVariants> & {
+    asChild?: boolean
+  }
+```

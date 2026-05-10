@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { Package, Bell, Menu, X } from 'lucide-react'
 
-interface HeaderProps {
+type HeaderProps = Readonly<{
   currentView: string
   onNavigate: (view: string) => void
-}
+}>
 
 const menuItems = [
   { id: 'dashboard', label: 'Dashboard' },

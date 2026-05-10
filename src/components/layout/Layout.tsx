@@ -2,11 +2,11 @@ import type { ReactNode } from 'react'
 import { Header } from './Header'
 import { Footer } from './Footer'
 
-interface LayoutProps {
+type LayoutProps = Readonly<{
   children: ReactNode
   currentView: string
   onNavigate: (view: string) => void
-}
+}>
 
 export function Layout({ children, currentView, onNavigate }: LayoutProps) {
   return (

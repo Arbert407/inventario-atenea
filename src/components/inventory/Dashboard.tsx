@@ -122,17 +122,19 @@ export function Dashboard() {
   )
 }
 
+type StatCardProps = Readonly<{ 
+  icon: typeof Package
+  label: string
+  value: number
+  color: 'primary' | 'success' | 'warning' | 'danger'
+}>
+
 function StatCard({ 
   icon: Icon, 
   label, 
   value, 
   color 
-}: { 
-  icon: typeof Package
-  label: string
-  value: number
-  color: 'primary' | 'success' | 'warning' | 'danger'
-}) {
+}: StatCardProps) {
   const colorClasses = {
     primary: 'bg-primary/10 text-primary border-primary/30',
     success: 'bg-success/10 text-success border-success/30',
@@ -157,17 +159,19 @@ function StatCard({
   )
 }
 
+type ProgressBarProps = Readonly<{ 
+  label: string
+  value: number
+  total: number
+  color: string
+}>
+
 function ProgressBar({ 
   label, 
   value, 
   total, 
   color 
-}: { 
-  label: string
-  value: number
-  total: number
-  color: string
-}) {
+}: ProgressBarProps) {
   const percentage = total > 0 ? (value / total) * 100 : 0
 
   return (
@@ -186,15 +190,17 @@ function ProgressBar({
   )
 }
 
+type MetricBoxProps = Readonly<{ 
+  icon: typeof Boxes
+  label: string
+  value: string | number
+}>
+
 function MetricBox({ 
   icon: Icon, 
   label, 
   value 
-}: { 
-  icon: typeof Boxes
-  label: string
-  value: string | number
-}) {
+}: MetricBoxProps) {
   return (
     <div className="text-center p-4 rounded-xl bg-white/5 border border-border/50">
       <Icon className="w-5 h-5 text-primary mx-auto mb-2" />
