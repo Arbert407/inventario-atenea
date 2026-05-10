@@ -72,6 +72,28 @@ export function Dashboard() {
               <MetricBox icon={Package} label="Unidades" value={totalUnits} theme={theme} />
               <MetricBox icon={DollarSign} label="Valor" value={`$${totalValue.toFixed(0)}`} theme={theme} />
             </div>
+
+            {lowStockMaterials.length > 0 && (
+              <div className="mt-4 pt-4 border-t" style={{ borderColor: 'rgba(255,255,255,0.1)' }}>
+                <p className="text-sm font-medium mb-2 flex items-center gap-2" style={{ color: '#EF4444' }}>
+                  <AlertTriangle className="w-4 h-4" />
+                  Stock Bajo ({lowStockMaterials.length})
+                </p>
+                <div className="space-y-2">
+                  {lowStockMaterials.slice(0, 5).map((m) => (
+                    <div key={m.id} className="flex justify-between text-sm">
+                      <span style={{ color: '#9CA3AF' }}>{m.name}</span>
+                      <span style={{ color: '#EF4444' }}>{m.quantity} / {m.minStock}</span>
+                    </div>
+                  ))}
+                  {lowStockMaterials.length > 5 && (
+                    <p className="text-xs" style={{ color: '#6B7280' }}>
+                      +{lowStockMaterials.length - 5} más
+                    </p>
+                  )}
+                </div>
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>

@@ -14,16 +14,16 @@
 | US-008 | Filtrar por categoría | 1 | Completada |
 | US-009 | Filtrar por ubicación | 1 | Completada |
 | US-010 | Ver dashboard | 2 | Completada |
-| US-011 | Mostrar total materiales | 1 | Pendiente |
-| US-012 | Mostrar herramientas por estado | 2 | Pendiente |
-| US-013 | Mostrar alertas stock bajo | 2 | Pendiente |
-| US-014 | Ver lista herramientas | 1 | Pendiente |
-| US-015 | Cambiar estado herramienta | 2 | Pendiente |
-| US-016 | Ver historial herramienta | 2 | Pendiente |
-| US-017 | Filtrar por estado | 1 | Pendiente |
-| US-018 | Ver lista materiales | 1 | Pendiente |
-| US-019 | Registrar entrada material | 2 | Pendiente |
-| US-020 | Registrar salida material | 2 | Pendiente |
+| US-011 | Mostrar total materiales | 1 | Completada |
+| US-012 | Mostrar herramientas por estado | 2 | Completada |
+| US-013 | Mostrar alertas stock bajo | 2 | Completada |
+| US-014 | Ver lista herramientas | 1 | Completada |
+| US-015 | Cambiar estado herramienta | 2 | Completada |
+| US-016 | Ver historial herramienta | 2 | Completada |
+| US-017 | Filtrar por estado | 1 | Completada |
+| US-018 | Ver lista materiales | 1 | Completada |
+| US-019 | Registrar entrada material | 2 | Completada |
+| US-020 | Registrar salida material | 2 | Completada |
 | US-021 | Definir stock mínimo | 1 | Pendiente |
 | US-022 | Definir stock máximo | 1 | Pendiente |
 | US-023 | Definir precio compra | 1 | Pendiente |
@@ -291,9 +291,9 @@ US-011, US-012, US-013
 Como usuario, quiero ver la cantidad total de materiales en el dashboard.
 
 ### Criterios de Aceptación
-- [ ] Mostrar cantidad total de materiales
-- [ ] Actualización en tiempo real cuando cambia stock
-- [ ] Formato de número legible
+- [x] Mostrar cantidad total de materiales
+- [x] Actualización en tiempo real cuando cambia stock
+- [x] Formato de número legible
 
 ### Estimación
 | Complejidad | 1 |
@@ -313,10 +313,10 @@ US-003
 Como usuario, quiero ver la cantidad de herramientas por cada estado en el dashboard.
 
 ### Criterios de Aceptación
-- [ ] Mostrar por estado (disponible, en uso, dañada, reparación)
-- [ ] Conteo por estado
-- [ ] Indicador visual por estado
-- [ ] Total de herramientas
+- [x] Mostrar por estado (disponible, en uso, dañada, reparación)
+- [x] Conteo por estado
+- [x] Indicador visual por estado
+- [x] Total de herramientas
 
 ### Estimación
 | Complejidad | 2 |
@@ -336,10 +336,10 @@ US-014
 Como usuario, quiero ver alertas cuando el stock de materiales esté bajo.
 
 ### Criterios de Aceptación
-- [ ] Detectar stock bajo (cantidad < mínimo)
-- [ ] Mostrar alerta visual (color, ícono)
-- [ ] Lista de materiales con stock bajo
-- [ ] Enlace a cada material
+- [x] Detectar stock bajo (cantidad < mínimo)
+- [x] Mostrar alerta visual (color, ícono)
+- [x] Lista de materiales con stock bajo
+- [x] Conteo en stat card
 
 ### Estimación
 | Complejidad | 2 |
@@ -359,11 +359,11 @@ US-021, US-025
 Como usuario, quiero ver la lista de herramientas.
 
 ### Criterios de Aceptación
-- [ ] Mostrar todas las herramientas
-- [ ] Mostrar nombre de cada herramienta
-- [ ] Mostrar estado actual con color
-- [ ] Botón para cambiar estado
-- [ ] Mostrar vacío si no hay herramientas
+- [x] Mostrar todas las herramientas
+- [x] Mostrar nombre de cada herramienta
+- [x] Mostrar estado actual con color
+- [x] Botón para cambiar estado
+- [x] Mostrar vacío si no hay herramientas
 
 ### Estimación
 | Complejidad | 1 |
@@ -383,11 +383,11 @@ US-001
 Como usuario, quiero cambiar el estado de una herramienta.
 
 ### Criterios de Aceptación
-- [ ] Lista desplegable de estados
-- [ ] Seleccionar nuevo estado
-- [ ] Guardar cambio
-- [ ] Mostrar mensaje de éxito
-- [ ] Actualizar visualización
+- [x] Lista desplegable de estados
+- [x] Seleccionar nuevo estado
+- [x] Guardar cambio
+- [x] Mostrar mensaje de éxito
+- [x] Actualizar visualización
 
 ### Estimación
 | Complejidad | 2 |
@@ -407,11 +407,11 @@ US-014
 Como usuario, quiero ver el historial de movimientos de una herramienta.
 
 ### Criterios de Aceptación
-- [ ] Mostrar historial de herramienta
-- [ ] Fecha de cada movimiento
-- [ ] Tipo de movimiento
-- [ ] Cantidad si aplica
-- [ ] Ordenar por fecha (más reciente primero)
+- [x] Mostrar historial de herramienta
+- [x] Fecha de cada movimiento
+- [x] Tipo de movimiento
+- [x] Cantidad si aplica
+- [x] Ordenar por fecha (más reciente primero)
 
 ### Estimación
 | Complejidad | 2 |
@@ -427,38 +427,22 @@ US-014, US-029
 
 ## US-017: Filtrar por estado
 
-### Descripción
-Como usuario, quiero filtrar herramientas por estado.
-
 ### Criterios de Aceptación
-- [ ] Filtro por estado
-- [ ] Lista desplegable de estados
-- [ ] Mostrar solo las de ese estado
-- [ ] Botón para quitar filtro
-
-### Estimación
-| Complejidad | 1 |
-| Tiempo estimado | 30 minutos |
-
-### Ideas de Test
-- [ ] Filtro muestra solo disponibles
-- [ ] Filtro muestra solo en uso
-
-### Bloqueos
-US-014
+- [x] Filtro por estado
+- [x] Lista desplegable de estados
+- [x] Mostrar solo las de ese estado
+- [x] Botón para quitar filtro
 
 ---
 
 ## US-018: Ver lista materiales
 
-### Descripción
-Como usuario, quiero ver la lista de materiales.
-
 ### Criterios de Aceptación
-- [ ] Mostrar todos los materiales
-- [ ] Mostrar nombre y cantidad actual
-- [ ] Indicador visual de stock bajo
-- [ ] Mostrar vacío si no hay materiales
+- [x] Mostrar todos los materiales
+- [x] Mostrar nombre de cada material
+- [x] Mostrar cantidad con stock
+- [x] Indicador de stock bajo
+- [x] Mostrar vacío si no hay materiales
 
 ### Estimación
 | Complejidad | 1 |
@@ -474,41 +458,25 @@ US-002
 
 ## US-019: Registrar entrada material
 
-### Descripción
-Como usuario, quiero registrar una entrada de materiales para aumentar el stock.
-
 ### Criterios de Aceptación
-- [ ] Seleccionar material
-- [ ] Ingresar cantidad a agregar
-- [ ] Validar cantidad > 0
-- [ ] Aumentar cantidad en inventario
-- [ ] Registrar movimiento de entrada
-- [ ] Mostrar mensaje de éxito
-
-### Estimación
-| Complejidad | 2 |
-| Tiempo estimado | 1 hora |
-
-### Ideas de Test
-- [ ] Cantidad aumenta correctamente
-
-### Bloqueos
-US-018
+- [x] Seleccionar material
+- [x] Ingresar cantidad a agregar
+- [x] Validar cantidad > 0
+- [x] Aumentar cantidad en inventario
+- [x] Registrar movimiento de entrada
+- [x] Mostrar mensaje de éxito
 
 ---
 
 ## US-020: Registrar salida material
 
-### Descripción
-Como usuario, quiero registrar una salida de materiales para disminuir el stock.
-
 ### Criterios de Aceptación
-- [ ] Seleccionar material
-- [ ] Ingresar cantidad a retirar
-- [ ] Validar que hay suficiente stock
-- [ ] Disminuir cantidad en inventario
-- [ ] Registrar movimiento de salida
-- [ ] Mostrar mensaje de éxito
+- [x] Seleccionar material
+- [x] Ingresar cantidad a retirar
+- [x] Validar cantidad > 0
+- [x] Disminuir cantidad en inventario
+- [x] Registrar movimiento de salida
+- [x] Mostrar mensaje de éxito
 
 ### Estimación
 | Complejidad | 2 |

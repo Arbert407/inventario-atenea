@@ -6,9 +6,11 @@ import { useInventory } from '@/hooks/useInventory'
 import { useTheme } from '@/hooks/useTheme'
 import { TOOL_STATUS_LABELS, TOOL_STATUS_COLORS } from '@/data/mock'
 import type { Product, ProductType } from '@/types/product'
-import { Package, Wrench, PackageX, Pencil, Trash2, Search, X, ChevronDown } from 'lucide-react'
+import { Package, Wrench, PackageX, Pencil, Trash2, Search, X, ChevronDown, Clock, ArrowDownCircle, ArrowUpCircle } from 'lucide-react'
 import { ProductEdit } from './ProductEdit'
 import { DeleteConfirm } from './DeleteConfirm'
+import { ProductHistory } from './ProductHistory'
+import { RegisterMovement } from './RegisterMovement'
 
 type ProductListProps = Readonly<{
   filterType?: ProductType | 'all'
@@ -17,12 +19,16 @@ type ProductListProps = Readonly<{
 export function ProductList({ filterType = 'all' }: ProductListProps) {
   const { products, deleteProduct, searchProducts } = useInventory()
   const { theme } = useTheme()
-  const [typeFilter, setTypeFilter] = useState<ProductType | 'all'>('all')
+  const [typeFilter, setTypeFilter] = useState<ProductType | 'all'>(filterType || 'all')
   const [categoryFilter, setCategoryFilter] = useState<string>('all')
   const [locationFilter, setLocationFilter] = useState<string>('all')
+  const [statusFilter, setStatusFilter] = useState<string>('all')
   const [searchQuery, setSearchQuery] = useState('')
   const [editProduct, setEditProduct] = useState<Product | null>(null)
   const [productToDelete, setProductToDelete] = useState<Product | null>(null)
+  const [viewHistoryProduct, setViewHistoryProduct] = useState<Product | null>(null)
+  const [movementProduct, setMovementProduct] = useState<Product | null>(null)
+  const [movementType, setMovementType] = useState<'entry' | 'exit' | 'return'>('entry')
 
   const categories = useMemo(() => {
     const cats = new Set(products.map((p) => p.category))
@@ -41,8 +47,11 @@ export function ProductList({ filterType = 'all' }: ProductListProps) {
   const filteredProducts = searchedProducts.filter((p) => {
     const matchesCategory = categoryFilter === 'all' || p.category === categoryFilter
     const matchesLocation = locationFilter === 'all' || p.location === locationFilter
-    return matchesCategory && matchesLocation
+    const matchesStatus = statusFilter === 'all' || (p.type === 'tool' && p.status === statusFilter)
+    return matchesCategory && matchesLocation && matchesStatus
   })
+
+  const toolStatuses = ['available', 'in_use', 'damaged', 'repairing']
 
   const textStyles = {
     dark: { primary: '#E5E7EB', secondary: '#9CA3AF', muted: '#6B7280' },
@@ -55,9 +64,11 @@ export function ProductList({ filterType = 'all' }: ProductListProps) {
     <div className="space-y-6">
       <div className="text-center py-4">
         <h2 className="text-3xl font-bold tracking-tight" style={{ color: s.primary }}>
-          Productos
+          {filterType === 'tool' ? 'Herramientas' : filterType === 'material' ? 'Materiales' : 'Productos'}
         </h2>
-        <p className="mt-1" style={{ color: s.secondary }}>Lista de todos los productos en inventario</p>
+        <p className="mt-1" style={{ color: s.secondary }}>
+          {filterType === 'tool' ? 'Lista de herramientas' : filterType === 'material' ? 'Lista de materiales' : 'Lista de todos los productos en inventario'}
+        </p>
       </div>
 
       <div className="relative">
@@ -160,8 +171,31 @@ export function ProductList({ filterType = 'all' }: ProductListProps) {
         </div>
       )}
 
+      {filterType === 'tool' && (
+        <div className="flex flex-wrap gap-2 items-center">
+          <span className="text-sm" style={{ color: s.muted }}>Estado:</span>
+          <Button
+            variant={statusFilter === 'all' ? btnVariant : theme === 'dark' ? 'outline' : 'outlineLight'}
+            size="sm"
+            onClick={() => setStatusFilter('all')}
+          >
+            Todos
+          </Button>
+          {toolStatuses.map((status) => (
+            <Button
+              key={status}
+              variant={statusFilter === status ? btnVariant : theme === 'dark' ? 'outline' : 'outlineLight'}
+              size="sm"
+              onClick={() => setStatusFilter(status)}
+            >
+              {status === 'available' ? 'Disponible' : status === 'in_use' ? 'En Uso' : status === 'damaged' ? 'Dañada' : 'Reparación'}
+            </Button>
+          ))}
+        </div>
+      )}
+
       {filteredProducts.length === 0 ? (
-        searchQuery || categoryFilter !== 'all' || locationFilter !== 'all' ? (
+        searchQuery || categoryFilter !== 'all' || locationFilter !== 'all' || statusFilter !== 'all' ? (
           <div className="text-center py-12">
             <PackageX className="w-16 h-16 mx-auto mb-4" style={{ color: s.muted, opacity: 0.3 }} />
             <p className="text-lg" style={{ color: s.secondary }}>No se encontraron resultados</p>
@@ -176,11 +210,16 @@ export function ProductList({ filterType = 'all' }: ProductListProps) {
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {filteredProducts.map((product) => (
-              <ProductCard
+<ProductCard
                 key={product.id}
                 product={product}
                 onEdit={() => setEditProduct(product)}
                 onDelete={() => setProductToDelete(product)}
+                onHistory={() => setViewHistoryProduct(product)}
+                onMove={(type) => {
+                  setMovementType(type)
+                  setMovementProduct(product)
+                }}
                 theme={theme}
               />
             ))}
@@ -203,6 +242,21 @@ export function ProductList({ filterType = 'all' }: ProductListProps) {
               }}
             />
           )}
+          {viewHistoryProduct && (
+            <ProductHistory
+              product={viewHistoryProduct}
+              open={!!viewHistoryProduct}
+              onOpenChange={(open) => !open && setViewHistoryProduct(null)}
+            />
+          )}
+          {movementProduct && (
+            <RegisterMovement
+              product={movementProduct}
+              type={movementType}
+              open={!!movementProduct}
+              onOpenChange={(open) => !open && setMovementProduct(null)}
+            />
+          )}
         </>
       )}
 
@@ -211,6 +265,7 @@ export function ProductList({ filterType = 'all' }: ProductListProps) {
         {searchQuery && ` (búsqueda: "${searchQuery}")`}
         {categoryFilter !== 'all' && ` (categoría: ${categoryFilter})`}
         {locationFilter !== 'all' && ` (ubicación: ${locationFilter})`}
+        {statusFilter !== 'all' && ` (estado: ${statusFilter})`}
       </p>
     </div>
   )
@@ -220,10 +275,12 @@ type ProductCardProps = Readonly<{
   product: Product
   onEdit: () => void
   onDelete: () => void
+  onHistory?: () => void
+  onMove?: (type: 'entry' | 'exit' | 'return') => void
   theme: 'dark' | 'light'
 }>
 
-function ProductCard({ product, onEdit, onDelete, theme }: ProductCardProps) {
+function ProductCard({ product, onEdit, onDelete, onHistory, onMove, theme }: ProductCardProps) {
   const isTool = product.type === 'tool'
   const textStyles = {
     dark: { primary: '#E5E7EB', secondary: '#9CA3AF', muted: '#6B7280' },
@@ -248,6 +305,15 @@ function ProductCard({ product, onEdit, onDelete, theme }: ProductCardProps) {
             <div className="flex items-center justify-between">
               <h3 className="font-semibold truncate" style={{ color: s.primary }}>{product.name}</h3>
               <div className="flex items-center gap-1">
+                <button
+                  type="button"
+                  onClick={onHistory}
+                  className="p-1.5 rounded-lg transition-colors"
+                  style={{ color: s.secondary }}
+                  title="Ver historial"
+                >
+                  <Clock className="w-4 h-4" />
+                </button>
                 <button
                   type="button"
                   onClick={onEdit}
@@ -299,6 +365,24 @@ function ProductCard({ product, onEdit, onDelete, theme }: ProductCardProps) {
                 {product.minStock !== undefined && product.quantity !== undefined && product.quantity < product.minStock && (
                   <span className="ml-2 text-danger text-xs">(Stock bajo)</span>
                 )}
+                <div className="flex gap-1 mt-1">
+                  <button
+                    type="button"
+                    onClick={() => onMove?.('entry')}
+                    className="text-xs px-2 py-1 rounded bg-success/20 text-success hover:bg-success/30"
+                    title="Registrar entrada"
+                  >
+                    +Entrada
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => onMove?.('exit')}
+                    className="text-xs px-2 py-1 rounded bg-warning/20 text-warning hover:bg-warning/30"
+                    title="Registrar salida"
+                  >
+                    -Salida
+                  </button>
+                </div>
               </div>
             )}
           </div>

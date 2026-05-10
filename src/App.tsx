@@ -14,7 +14,9 @@ function App() {
     <ThemeProvider theme={theme} onThemeChange={setTheme}>
       <Layout currentView={currentView} onNavigate={setCurrentView} theme={theme} onThemeChange={setTheme}>
         {currentView === 'dashboard' && <Dashboard />}
-        {currentView === 'products' && <ProductList />}
+        {currentView === 'products' && <ProductList filterType="all" />}
+        {currentView === 'tools' && <ProductList filterType="tool" />}
+        {currentView === 'materials' && <ProductList filterType="material" />}
         {currentView === 'add-tool' && <ToolForm />}
         {currentView === 'add-material' && <MaterialForm />}
       </Layout>
